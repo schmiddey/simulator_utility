@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<launch>
+   <node name="sim_move_node" pkg="sim_move" type="sim_move_node">
+      <param name="pub_name_cmd_vel"         type="string" value="vel/teleop" />
+      <param name="pub_name_state"           type="string" value="path_control/state" />
+      <param name="sub_name_path"            type="string" value="path_control/path" />
+      <param name="sub_name_pause"           type="string" value="path_control/pause" />
+      <param name="tf_map_frame"             type="string" value="map" />
+      <param name="tf_robot_frame"           type="string" value="base_footprint" />
+   </node>
+</launch>

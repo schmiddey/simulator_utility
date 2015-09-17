@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<package>
+  <name>simulator_utility</name>
+  <version>0.0.0</version>
+  <description>The simulator_utility package</description>
+
+  <!-- One maintainer tag required, multiple allowed, one person per tag --> 
+  <!-- Example:  -->
+  <!-- <maintainer email="jane.doe@example.com">Jane Doe</maintainer> -->
+  <maintainer email="m1ch1@todo.todo">m1ch1</maintainer>
+
+
+  <!-- One license tag required, multiple allowed, one license per tag -->
+  <!-- Commonly used license strings: -->
+  <!--   BSD, MIT, Boost Software License, GPLv2, GPLv3, LGPLv2.1, LGPLv3 -->
+  <license>GPLv2</license>
+
+
+  <buildtool_depend>catkin</buildtool_depend>
+	
+  <run_depend>joy2vel</run_depend>
+  <run_depend>sim_launcher</run_depend>
+  <run_depend>sim_move</run_depend>
+
+
+  <export>
+    <metapackage/>
+  </export>
+</package>
