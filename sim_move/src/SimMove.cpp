@@ -18,6 +18,9 @@ SimMove::SimMove() : _rate(0)
     std::string tf_map_frame;
     std::string tf_robot_frame;
 
+    double vel_lin_max;
+    double vel_ang_max;
+
     privNh.param("pub_name_cmd_vel",         pub_name_cmd_vel,       std::string("vel/teleop"));
     privNh.param("pub_name_state",           pub_name_state,         std::string("sim_move/state"));
     privNh.param("pub_name_process",         pub_name_process,       std::string("sim_move/process"));
@@ -25,6 +28,9 @@ SimMove::SimMove() : _rate(0)
     privNh.param("sub_name_pause",           sub_name_pause,         std::string("sim_move/pause"));
     privNh.param("tf_map_frame",             tf_map_frame,           std::string("map"));
     privNh.param("tf_robot_frame",           tf_robot_frame,         std::string("base_footprint"));
+
+    privNh.param<double>("vel_lin_max"    , vel_lin_max,  0.2);
+    privNh.param<double>("vel_ang_max"    , vel_ang_max,  1.3);
 
     _tf_map_frame = tf_map_frame;
     _tf_robot_frame = tf_robot_frame;
@@ -38,8 +44,8 @@ SimMove::SimMove() : _rate(0)
     _sub_path = _nh.subscribe(sub_name_path , 1, &SimMove::subPath_callback, this);
     _sub_pause = _nh.subscribe(sub_name_pause, 1, &SimMove::subPause_callback, this);
 
-    _pathAnalyser = new analyser::BasicAnalyser(0.24, 0.1, 4, 3, 0.1, 1.0);
-    _controller = new controller::ParabolaTransfere(0.2, 1.3, 2, 4);
+    _pathAnalyser = new analyser::BasicAnalyser(0.24, 0.1, 4, 1, 0.1, 1.0);
+    _controller = new controller::ParabolaTransfere(vel_lin_max, vel_ang_max, 2, 4);
 
     _enable_analyse = false;
     _pause = false;

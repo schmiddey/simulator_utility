@@ -1,11 +1,14 @@
 <?xml version="1.0"?>
 <launch>
    <node name="sim_move_node" pkg="sim_move" type="sim_move_node">
-      <param name="pub_name_cmd_vel"         type="string" value="vel/teleop" />
-      <param name="pub_name_state"           type="string" value="path_control/state" />
-      <param name="sub_name_path"            type="string" value="path_control/path" />
-      <param name="sub_name_pause"           type="string" value="path_control/pause" />
-      <param name="tf_map_frame"             type="string" value="map" />
+      <param name="pub_name_cmd_vel"         type="string" value="cmd_vel"        />
+      <param name="pub_name_state"           type="string" value="move/state"     />
+      <param name="pub_name_process"         type="string" value="move/process"      />
+      <param name="sub_name_path"            type="string" value="move/path"      />
+      <param name="sub_name_pause"           type="string" value="move/pause"     />
+      <param name="tf_map_frame"             type="string" value="/map"            />
       <param name="tf_robot_frame"           type="string" value="base_footprint" />
+      <param name="vel_lin_max"              type="double" value="0.2"            />
+      <param name="vel_ang_max"              type="double" value="1.3"            /> 
    </node>
 </launch>
