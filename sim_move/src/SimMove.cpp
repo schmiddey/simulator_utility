@@ -2,6 +2,7 @@
 #include "SimMove.h"
 #include "PathAnalyser/BasicAnalyser.h"
 #include "Controller/ParabolaTransfere.h"
+#include "Controller/PIController.h"
 
 SimMove::SimMove() : _rate(0)
 {
@@ -65,8 +66,8 @@ SimMove::SimMove() : _rate(0)
 
     //_pathAnalyser = new analyser::BasicAnalyser(0.24, 0.1, 4, 1, 0.1, 1.0);
     _pathAnalyser = new analyser::BasicAnalyser(target_radius, target_radius_final, cos_pwr_n, cos_fac_n, ang_reached_range, lin_end_approach);
-    _controller = new controller::ParabolaTransfere(vel_lin_max, vel_ang_max, 2, 4);
-
+    //_controller = new controller::ParabolaTransfere(vel_lin_max, vel_ang_max, 2, 4);
+    _controller = new controller::PIController(vel_lin_max, vel_ang_max, lin_ctrl_scale, 1/15, 4, 5);
     _enable_analyse = false;
     _pause = false;
 
@@ -300,7 +301,7 @@ int main(int argc, char *argv[])
     ros::NodeHandle nh("~");
 
     SimMove node;
-    node.start(50);
+    node.start(15);
 
 }
 
