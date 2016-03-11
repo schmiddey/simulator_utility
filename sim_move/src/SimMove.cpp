@@ -21,6 +21,15 @@ SimMove::SimMove() : _rate(0)
     double vel_lin_max;
     double vel_ang_max;
 
+    double target_radius       ;
+    double target_radius_final ;
+    int    cos_pwr_n           ;
+    double cos_fac_n           ;
+    double ang_reached_range   ;
+    double lin_end_approach    ;
+    double lin_ctrl_scale      ;
+    double ang_ctrl_scale      ;
+
     privNh.param("pub_name_cmd_vel",         pub_name_cmd_vel,       std::string("vel/teleop"));
     privNh.param("pub_name_state",           pub_name_state,         std::string("sim_move/state"));
     privNh.param("pub_name_process",         pub_name_process,       std::string("sim_move/process"));
@@ -31,6 +40,16 @@ SimMove::SimMove() : _rate(0)
 
     privNh.param<double>("vel_lin_max"    , vel_lin_max,  0.2);
     privNh.param<double>("vel_ang_max"    , vel_ang_max,  1.3);
+
+    privNh.param<double>("target_radius"      ,   target_radius         , 0.24);
+    privNh.param<double>("target_radius_final",   target_radius_final   , 0.1 );
+    privNh.param<int>(   "cos_pwr_n"          ,   cos_pwr_n             , 4   );
+    privNh.param<double>("cos_fac_n"          ,   cos_fac_n             , 1.0 );
+    privNh.param<double>("ang_reached_range"  ,   ang_reached_range     , 0.1 );
+    privNh.param<double>("lin_end_approach"   ,   lin_end_approach      , 1.0 );
+    privNh.param<double>("lin_ctrl_scale"     ,   lin_ctrl_scale        , 2.0 );
+    privNh.param<double>("ang_ctrl_scale"     ,   ang_ctrl_scale        , 4.0 );
+
 
     _tf_map_frame = tf_map_frame;
     _tf_robot_frame = tf_robot_frame;
@@ -44,7 +63,8 @@ SimMove::SimMove() : _rate(0)
     _sub_path = _nh.subscribe(sub_name_path , 1, &SimMove::subPath_callback, this);
     _sub_pause = _nh.subscribe(sub_name_pause, 1, &SimMove::subPause_callback, this);
 
-    _pathAnalyser = new analyser::BasicAnalyser(0.24, 0.1, 4, 1, 0.1, 1.0);
+    //_pathAnalyser = new analyser::BasicAnalyser(0.24, 0.1, 4, 1, 0.1, 1.0);
+    _pathAnalyser = new analyser::BasicAnalyser(target_radius, target_radius_final, cos_pwr_n, cos_fac_n, ang_reached_range, lin_end_approach);
     _controller = new controller::ParabolaTransfere(vel_lin_max, vel_ang_max, 2, 4);
 
     _enable_analyse = false;
@@ -160,8 +180,14 @@ void SimMove::doPathControl(void)
    _pub_cmd_vel.publish(msgTwist);
 }
 
-void SimMove::subPath_callback(const nav_msgs::Path& msg)
+void SimMove::subPath_callback(const nav_msgs::Path& msg_)
 {
+   nav_msgs::Path msg = msg_;
+   //path with length 1 is invalid, if invalid then clear
+   if(msg.poses.size() <= 1)
+   {
+      msg.poses.clear();
+   }
    std::vector<analyser::pose> path_comp;
    std::vector<analyser::pose> path_trunc;
 

@@ -105,6 +105,7 @@ include_directories(
 
 ## Declare a cpp executable
 add_executable(joy2vel_node src/Joy2Vel.cpp)
+add_executable(joy2vel_sc_node src/Joy2Vel_sc.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
@@ -115,6 +116,9 @@ add_executable(joy2vel_node src/Joy2Vel.cpp)
    ${catkin_LIBRARIES}
  )
 
+target_link_libraries(joy2vel_sc_node
+   ${catkin_LIBRARIES}
+ )
 #############
 ## Install ##
 #############
@@ -130,7 +134,7 @@ add_executable(joy2vel_node src/Joy2Vel.cpp)
 # )
 
 ## Mark executables and/or libraries for installation
-install(TARGETS joy2vel_node
+install(TARGETS joy2vel_node joy2vel_sc_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
    RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
