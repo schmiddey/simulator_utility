@@ -7,8 +7,12 @@
 
 	<node pkg="tf" type="static_transform_publisher" name="world2map" args="0 0 0 0 0 0  world map 100" />
 
-	<node pkg="stdr_robot" type="robot_handler" name="$(anon robot_spawn)" args="add $(find stdr_resources)/resources/robots/simple_robot.xml 1 2 0" />
+	<node pkg="stdr_robot" type="robot_handler" name="$(anon robot_spawn)" args="add $(find sim_launcher)/resources/simple_robot.xml 1 2 0" />
+    <!--node pkg="stdr_robot" type="robot_handler" name="$(anon robot_spawn)" args="add $(find sim_launcher)/resources/robot.xml 1 2 0" /-->	
+	
+	<!--node pkg="stdr_robot" type="robot_handler" name="$(anon robot_spawn)" args="add $(find stdr_resources)/resources/robots/pandora_robot.xml 1 2 0" /-->	
 
-	<node name="rviz" type="rviz" pkg="rviz" args="-d $(find sim_launcher)/config.rviz" />
+		
+	<node name="rviz" type="rviz" pkg="rviz" args="-d $(find sim_launcher)/rviz/config.rviz" />
 
 </launch>

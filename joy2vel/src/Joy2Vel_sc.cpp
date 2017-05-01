@@ -85,7 +85,8 @@ void Joy2Vel_sc::run()
 
           //ROS_INFO("backward: %f", back);
 
-          double rot     = _joy.axes[3];
+          //double rot     = _joy.axes[3];
+          double rot     = _joy.axes[0];
           int sign = rot < 0 ? -1 : 1;
           rot /= 0.85;
           rot = (std::abs(rot) > 1 ? 1 : rot);
