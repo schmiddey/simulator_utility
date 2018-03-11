@@ -4,6 +4,10 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
+        - /Global Options1
+        - /Status1
+        - /TF1
+        - /TF1/Status1
         - /TF1/Frames1
         - /Polygon1
       Splitter Ratio: 0.647651017
@@ -83,15 +87,11 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: true
+        laser:
+          Value: true
         map:
           Value: true
-        map_static:
-          Value: true
         robot0:
-          Value: true
-        robot0_laser_0:
-          Value: true
-        world:
           Value: true
       Marker Scale: 2
       Name: TF
@@ -99,12 +99,10 @@ Visualization Manager:
       Show Axes: true
       Show Names: true
       Tree:
-        world:
-          map:
-            map_static:
-              robot0:
-                robot0_laser_0:
-                  {}
+        map:
+          robot0:
+            laser:
+              {}
       Update Interval: 0
       Value: true
     - Alpha: 1
@@ -179,7 +177,7 @@ Visualization Manager:
       Marker Topic: /rona/robot_marker
       Name: Marker
       Namespaces:
-        {}
+        "": true
       Queue Size: 100
       Value: true
     - Alpha: 1
@@ -241,7 +239,7 @@ Visualization Manager:
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: world
+    Fixed Frame: map
     Frame Rate: 30
   Name: root
   Tools:
@@ -262,7 +260,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/XYOrbit
-      Distance: 19.8515968
+      Distance: 23.4981842
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1

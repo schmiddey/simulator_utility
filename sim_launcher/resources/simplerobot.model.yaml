@@ -2,13 +2,13 @@
 
 
 bodies:  # List of named bodies
-  - name: base_footprint
+  - name: robot0
     pose: [0, 0, 0] 
     type: dynamic  
     color: [1, 1, 1, 0.75] 
     footprints:
       - type: circle
-        radius: 0.5
+        radius: 0.3
         center: [0.0, 0.0]
         density: 1
 
@@ -30,7 +30,7 @@ bodies:  # List of named bodies
 plugins:
   - type: DiffDrive 
     name: turtlebot_drive 
-    body: base_footprint
+    body: robot0
     twist_sub: /robot0/cmd_vel
     odom_frame_id: map
     pub_rate: 10
@@ -44,7 +44,7 @@ plugins:
     #                         0.30, 0.31, 0.32, 0.33, 0.34, 0.35]
   # - type: DiffDrive 
   #   name: turtlebot_drive 
-  #   body: base_footprint
+  #   body: robot0
   #   odom_frame_id: map
   #   pub_rate: 10
   #   twist_sub: /robo0/cmd_vel
@@ -60,7 +60,7 @@ plugins:
     name: laser_front
     frame: laser
     topic: scan
-    body: base_footprint
+    body: robot0
     broadcast_tf: true
     origin: [0.28, 0, 0]
     range: 20
