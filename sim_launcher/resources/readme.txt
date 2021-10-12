@@ -1,1 +1,0 @@
-This folder contains maps and robots from stdr_simluator and flatland
