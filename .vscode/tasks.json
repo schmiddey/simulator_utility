@@ -1,0 +1,28 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+    {
+      "type": "shell",
+      "command": "colcon build --packages-up-to ${input:pkgs} --symlink-install",
+      "options": {
+        "cwd": "${workspaceFolder}/../../"
+      },
+      "problemMatcher": [
+        "$catkin-gcc",
+      ],
+      "group": "build",
+      "label": "colcon_build"
+    },
+  ],
+  "inputs": [
+    {
+      "id": "pkgs",
+      "type": "pickString",
+      "description": "pkgs from this meta pkg",
+      "options": [
+        "sim_joy2vel",
+        "sim_launch",
+      ]
+    }
+  ]
+}

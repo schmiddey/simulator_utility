@@ -1,0 +1,24 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "",
+        "limitSymbolsToIncludedHeaders": true
+      },
+      "includePath": [
+        "/opt/ros/galactic/include/**",
+        // "/opt/ros/foxy/include/**",
+        "/home/m1ch1/workspace/ros2/dev_ws/src/cpp_pubsub/include/**",
+        "/home/m1ch1/workspace/ros2/dev_ws/src/cpp_srvcli/include/**",
+        "/home/m1ch1/workspace/ros2/dev_ws/src/my_package/include/**",
+        "/home/m1ch1/workspace/ros2/dev_ws/src/own_launch/include/**",
+        "/home/m1ch1/workspace/ros2/dev_ws/src/ros_tutorials/turtlesim/include/**",
+        "/home/m1ch1/workspace/ros2/dev_ws/src/simulator_utility/sim_joy2vel/include/**",
+        "/home/m1ch1/workspace/ros2/dev_ws/src/simulator_utility/sim_launch/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS"
+    }
+  ],
+  "version": 4
+}
