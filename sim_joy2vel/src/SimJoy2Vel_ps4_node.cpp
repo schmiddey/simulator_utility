@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <functional>
 
 #include "rclcpp/rclcpp.hpp"
 #include "rcl_interfaces/msg/set_parameters_result.hpp"
@@ -29,13 +30,8 @@ public:
     _params.max_vel_ang   = this->get_parameter("max_vel_ang").as_double();
     _params.mode          = this->get_parameter("mode").as_string();
 
-    if(_params.mode != "diff" &&
-       _params.mode != "omni")
-    {
-      RCLCPP_WARN(this->get_logger(), "Invadil mode -> fallback mode diff is used");
-      _params.mode          = "diff";
-    }
-
+    this->setMode(_params.mode);
+    
 
     _sub_joy = this->create_subscription<sensor_msgs::msg::Joy>("joy", 10, std::bind(&SimJoy2Vel_node::sub_joy_callback, this, std::placeholders::_1));
 
@@ -44,6 +40,7 @@ public:
     //callback for param
     _callback_handle = this->add_on_set_parameters_callback(std::bind(&SimJoy2Vel_node::param_callback, this, std::placeholders::_1));
   }
+
   ~SimJoy2Vel_node()
   {
 
@@ -52,13 +49,9 @@ public:
 private: //functions
   void sub_joy_callback(const sensor_msgs::msg::Joy::SharedPtr msg)
   {
-    if(_params.mode == "omni")
+    if(_fcn_create_twist)
     {
-      _pub_vel->publish(this->createTwistOmni(msg));
-    }
-    else//(_params.mode == "diff")//diff as fallback
-    {
-      _pub_vel->publish(this->createTwistDiff(msg));
+      _pub_vel->publish(_fcn_create_twist(msg));
     }
   }
 
@@ -107,21 +100,27 @@ private: //functions
       }
       else if(e.get_name() == "mode")
       {
-        if(e.as_string() == "diff" ||
-           e.as_string() == "omni")
-        {
-          _params.mode          = e.as_string();
-        }
-        else
-        {
-          result.successful = false;
-          result.reason = "invalid mode string use diff, omni";
-          return result;
-        }
-
+        this->setMode(e.as_string());
       }
     }
     return result;
+  }
+
+  void setMode(const std::string& mode)
+  {
+    if(mode == "diff")
+    {
+      _fcn_create_twist = std::bind(&SimJoy2Vel_node::createTwistDiff, this, std::placeholders::_1);
+    }
+    else if(mode == "omni")
+    {
+      _fcn_create_twist = std::bind(&SimJoy2Vel_node::createTwistOmni, this, std::placeholders::_1);
+    }
+    else
+    {
+      RCLCPP_WARN(this->get_logger(), "Invaild mode -> fallback mode diff is used");
+      _fcn_create_twist = std::bind(&SimJoy2Vel_node::createTwistDiff, this, std::placeholders::_1);
+    }
   }
 
 private:
@@ -135,7 +134,7 @@ private:
     std::string mode = "diff";
   } _params;
   
-
+  std::function<geometry_msgs::msg::Twist(const sensor_msgs::msg::Joy::SharedPtr)> _fcn_create_twist;
 
   rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr  _sub_joy;
 

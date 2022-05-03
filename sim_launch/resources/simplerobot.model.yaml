@@ -2,7 +2,7 @@
 
 
 bodies:  # List of named bodies
-  - name: base_link
+  - name: base_footprint
     pose: [0, 0, 0] 
     type: dynamic  
     color: [1, 1, 1, 0.75] 
@@ -30,7 +30,7 @@ bodies:  # List of named bodies
 plugins:
   - type: DiffDrive 
     name: turtlebot_drive 
-    body: base_link
+    body: base_footprint
     twist_sub: /cmd_vel
     odom_frame_id: odom
     # world_frame_id: odom
@@ -61,12 +61,12 @@ plugins:
     name: laser
     frame: laser
     topic: scan
-    body: base_link
+    body: base_footprint
     broadcast_tf: true
     origin: [0, 0, 0]
     range: 20
-    angle: {min: -2.356194490192345, max: 2.356194490192345, increment: 0.04363323129985824}
-    noise_std_dev: 0.03
+    angle: {min: -2.356194490192345, max: 2.356194490192345, increment: 0.011780972} #0.04363323129985824}
+    noise_std_dev: 0.01
     update_rate: 15
   - type: ModelTfPublisher
     name: tf_publisher

@@ -7,7 +7,7 @@ layers:  # Support for arbitrary number of layers
   #   map: "map3d.yaml"
   #   color: [1.0, 0.0, 0.0, 0.5]  # red 50% transparent
 models:
-  - name: robot0 
+  - name: base_footprint 
     pose: [11, 3.5, 0]
     model: "simplerobot.model.yaml"
   # - name: walker1

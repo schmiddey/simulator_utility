@@ -23,10 +23,10 @@ def generate_launch_description():
                                   name='map_server',
                                   output='screen',
                                   parameters=[{
-                                    "use_sim_time"  : False,
                                     "frame_id"      : "map",
                                     "topic_name"    : "map",
-                                    "yaml_filename"  : os.path.join(get_package_share_directory('sim_launch'), 'resources/sparse_obstacles.yaml')
+                                    "use_sim_time"  : False,
+                                    "yaml_filename"  : os.path.join(get_package_share_directory('sim_launch'), 'resources/mines.yaml')
                                   }]
                                   )
 
@@ -37,8 +37,7 @@ def generate_launch_description():
                               name='flatland_server',
                               output='screen',
                               parameters=[{
-                                "use_sim_time"  : False,
-                                "world_path"    : os.path.join(get_package_share_directory('sim_launch'), 'resources/flatland_world_sparse.yaml'),
+                                "world_path"    : os.path.join(get_package_share_directory('sim_launch'), 'resources/flatland_world_mines.yaml'),
                                 "update_rate"   : 200.0,
                                 "step_size"     : 0.005,
                                 "show_viz"      : False,
@@ -46,23 +45,14 @@ def generate_launch_description():
                               }]
                               )
 
-  # rviz_path=os.path.join(get_package_share_directory('sim_launch'), 'resources/sim.rviz')
-  # rviz2 = Node(package='rviz2',
-  #              executable='rviz2',
-  #              name='sim_rviz',
-  #              arguments=['-d', str(rviz_path)]  
-  #              )
-
 
   #stfp  ros2 run tf2_ros static_transform_publisher 0 0 0 0 0 0 map odom          
-  static_tf =  Node(package='tf2_ros',
-                    executable='static_transform_publisher',
-                    name='static_transform_map_odom',
-                    arguments = ["0", "0", "0", "0", "0", "0", "map", "odom"],  # '0 0 0 0 0 0 map odom'
-                    parameters=[{
-                      "use_sim_time"  : False,
-                    }]
-                    )
+  static_tf = Node(package='tf2_ros',
+                   executable='static_transform_publisher',
+                   name='static_transform_map_odom',
+                   arguments = ["0", "0", "0", "0", "0", "0", "map", "odom"]  # '0 0 0 0 0 0 map odom'
+                  #  arguments=''
+                   )
 
   #emit configure event
   configure_map_server_event = EmitEvent(
@@ -87,7 +77,6 @@ def generate_launch_description():
 
 
   return LaunchDescription([
-    # rviz2,
     static_tf,
     map_server_node,
     configure_map_server_event,

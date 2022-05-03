@@ -23,13 +23,13 @@ def generate_launch_description():
                           name='sim_joy2vel_ps4_node',
                           output='screen',
                           parameters=[{
-                            "max_vel_lin_x" : 1.0,
-                            "max_vel_lin_y" : 1.0, #not used
-                            "max_vel_ang"   : 1.0,
-                            "mode"          : "disdfsdff" #not used
+                            "max_vel_lin_x" : 2.0,
+                            "max_vel_lin_y" : 2.0, 
+                            "max_vel_ang"   : 2.0,
+                            "mode"          : "diff"#"omni"
                           }],
                           remappings=[
-                            ('/cmd_vel', '/robot0/cmd_vel'),
+                            ('/cmd_vel', '/cmd_vel'),
                           ]
                           )
 

@@ -46,6 +46,14 @@ def generate_launch_description():
                               )
 
 
+  #stfp  ros2 run tf2_ros static_transform_publisher 0 0 0 0 0 0 map odom          
+  static_tf = Node(package='tf2_ros',
+                   executable='static_transform_publisher',
+                   name='static_transform_map_odom',
+                   arguments = ["0", "0", "0", "0", "0", "0", "map", "odom"]  # '0 0 0 0 0 0 map odom'
+                  #  arguments=''
+                   )
+
   #emit configure event
   configure_map_server_event = EmitEvent(
     event=ChangeState(
@@ -69,6 +77,7 @@ def generate_launch_description():
 
 
   return LaunchDescription([
+    static_tf,
     map_server_node,
     configure_map_server_event,
     activate_map_server_event,
