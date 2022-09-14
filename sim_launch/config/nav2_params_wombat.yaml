@@ -133,14 +133,16 @@ controller_server:
       local_target_dist: 0.2
       local_path_max_dist: 50.0
       end_approach_dist: 0.5
+      max_accel_lin: 5.5
+      max_accel_ang: 5.5
       controller:
         angular_boost: 4.0
         linear_boost:  0.5
         wait_for_rotation: 1.0
         orientation_target: "by_path"
         orientation_offset: 30
-        max_vel_lin: 3.0
-        max_vel_ang: 3.0
+        max_vel_lin: 1.5
+        max_vel_ang: 1.5
 
 
 
