@@ -1,17 +1,18 @@
 {
-	"version": "2.0.0",
-	"tasks": [
+  "version": "2.0.0",
+  "tasks": [
     {
+      "label": "colcon_build",
       "type": "shell",
-      "command": "colcon build --packages-up-to ${input:pkgs} --symlink-install",
+      "command": "colcon build --packages-up-to ${input:pkgs} --symlink-install  --cmake-args \"-DCMAKE_EXPORT_COMPILE_COMMANDS=1\" ",
       "options": {
         "cwd": "${workspaceFolder}/../../"
       },
-      "problemMatcher": [
-        "$catkin-gcc",
-      ],
-      "group": "build",
-      "label": "colcon_build"
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": "gcc"
     },
   ],
   "inputs": [
@@ -22,6 +23,7 @@
       "options": [
         "sim_joy2vel",
         "sim_launch",
+        "sim_joy_bridge"
       ]
     }
   ]

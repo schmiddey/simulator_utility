@@ -1,12 +1,58 @@
+# amcl:
+#   ros__parameters:
+#     use_sim_time: True
+#     alpha1: 0.2
+#     alpha2: 0.2
+#     alpha3: 0.2
+#     alpha4: 0.2
+#     alpha5: 0.2
+#     base_frame_id: "base_footprint"
+#     beam_skip_distance: 0.5
+#     beam_skip_error_threshold: 0.9
+#     beam_skip_threshold: 0.3
+#     do_beamskip: false
+#     global_frame_id: "map"
+#     lambda_short: 0.1
+#     laser_likelihood_max_dist: 2.0
+#     laser_max_range: 100.0
+#     laser_min_range: -1.0
+#     laser_model_type: "likelihood_field"
+#     max_beams: 60
+#     max_particles: 2000
+#     min_particles: 500
+#     odom_frame_id: "odom"
+#     pf_err: 0.05
+#     pf_z: 0.99
+#     recovery_alpha_fast: 0.0
+#     recovery_alpha_slow: 0.0
+#     resample_interval: 1
+#     robot_model_type: "differential"
+#     save_pose_rate: 0.5
+#     sigma_hit: 0.2
+#     tf_broadcast: true
+#     transform_tolerance: 1.0
+#     update_min_a: 0.2
+#     update_min_d: 0.25
+#     z_hit: 0.5
+#     z_max: 0.05
+#     z_rand: 0.5
+#     z_short: 0.05
+#     scan_topic: scan
 
+# amcl_map_client:
+#   ros__parameters:
+#     use_sim_time: True
+
+# amcl_rclcpp_node:
+#   ros__parameters:
+#     use_sim_time: True
 
 bt_navigator:
   ros__parameters:
-    use_sim_time: false
-    transform_tolerance: 2.0
+    use_sim_time: True
     global_frame: map
-    robot_base_frame: base_footprint_r
-    odom_topic: odom
+    robot_base_frame: base_footprint
+    odom_topic: /odom
     bt_loop_duration: 10
     default_server_timeout: 20
     enable_groot_monitoring: True
@@ -51,11 +97,11 @@ bt_navigator:
 
 bt_navigator_rclcpp_node:
   ros__parameters:
-    use_sim_time: false
+    use_sim_time: True
 
 controller_server:
   ros__parameters:
-    use_sim_time: false
+    use_sim_time: True
     controller_frequency: 20.0
     min_x_velocity_threshold: 0.001
     min_y_velocity_threshold: 0.001  
@@ -79,59 +125,50 @@ controller_server:
     general_goal_checker:
       stateful: True
       plugin: "nav2_controller::SimpleGoalChecker"
-      xy_goal_tolerance: 0.05
-      yaw_goal_tolerance: 0.1
+      xy_goal_tolerance: 0.0001
+      yaw_goal_tolerance: 0.005
     FollowPath:
       plugin: "wombat_local_planner::WombatLocalPlanner"
-      transform_tolerance: 2.0
-      local_target_dist: 0.4
+      transform_tolerance: 1.0
+      local_target_dist: 0.2
       local_path_max_dist: 50.0
       end_approach_dist: 0.5
-      max_accel_lin: 0.3
-      max_accel_ang: 0.3
-      footprint_em_stop_scale: 1.1
-      footprint_safety_scale: 1.4
-      em_stop_zone_cell_cnt: 1
-      safety_zone_cell_cnt: 2
-      safety_zone_speed_scale: 1.0
+      max_accel_lin: 5.5
+      max_accel_ang: 5.5
       controller:
         angular_boost: 4.0
         linear_boost:  0.5
         wait_for_rotation: 1.0
-        orientation_offset: 10
         orientation_target: "by_path"
-        max_vel_lin: 0.4
-        max_vel_ang: 0.5
-
-
+        orientation_offset: 30
+        max_vel_lin: 1.5
+        max_vel_ang: 1.5
 
 
 
       
 controller_server_rclcpp_node:
   ros__parameters:
-    use_sim_time: false
+    use_sim_time: True
 
 local_costmap:
   local_costmap:
     ros__parameters:
-      transform_tolerance: 2.0
       update_frequency: 5.0
       publish_frequency: 2.0
       global_frame: odom
-      robot_base_frame: base_footprint_r
-      use_sim_time: false
+      robot_base_frame: base_footprint
+      use_sim_time: True
       rolling_window: true
       width: 5
       height: 5
       resolution: 0.05
-      # robot_radius: 0.4
-      footprint: "[[-0.450, -0.3], [-0.450, 0.3], [0.450, 0.3], [0.450, -0.3]]" # todo
+      robot_radius: 0.22
       plugins: ["voxel_layer", "inflation_layer"]
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 3.0
-        inflation_radius: 1.5
+        inflation_radius: 0.55
       voxel_layer:
         plugin: "nav2_costmap_2d::VoxelLayer"
         enabled: True
@@ -143,7 +180,7 @@ local_costmap:
         mark_threshold: 0
         observation_sources: scan
         scan:
-          topic: /scan_multi
+          topic: /scan
           max_obstacle_height: 2.0
           clearing: True
           marking: True
@@ -157,22 +194,20 @@ local_costmap:
       always_send_full_costmap: True
   local_costmap_client:
     ros__parameters:
-      use_sim_time: false
+      use_sim_time: True
   local_costmap_rclcpp_node:
     ros__parameters:
-      use_sim_time: false
+      use_sim_time: True
 
 global_costmap:
   global_costmap:
     ros__parameters:
-      transform_tolerance: 2.0
       update_frequency: 1.0
       publish_frequency: 1.0
       global_frame: map
-      robot_base_frame: base_footprint_r
-      use_sim_time: false
-      # robot_radius: 0.30
-      footprint: "[[-0.450, -0.3], [-0.450, 0.3], [0.450, 0.3], [0.450, -0.3]]" # todo check
+      robot_base_frame: base_footprint
+      use_sim_time: True
+      robot_radius: 0.22
       resolution: 0.05
       track_unknown_space: true
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
@@ -181,7 +216,7 @@ global_costmap:
         enabled: True
         observation_sources: scan
         scan:
-          topic: /scan_multi
+          topic: /scan
           max_obstacle_height: 2.0
           clearing: True
           marking: True
@@ -196,19 +231,19 @@ global_costmap:
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 3.0
-        inflation_radius: 0.80
+        inflation_radius: 0.55
       always_send_full_costmap: True
   global_costmap_client:
     ros__parameters:
-      use_sim_time: false
+      use_sim_time: True
   global_costmap_rclcpp_node:
     ros__parameters:
-      use_sim_time: false
+      use_sim_time: True
 
-map_server:
-  ros__parameters:
-    use_sim_time: false
-    # yaml_filename: "turtlebot3_world.yaml"
+# map_server:
+#   ros__parameters:
+#     use_sim_time: True
+#     yaml_filename: "turtlebot3_world.yaml"
 
 # map_saver:
 #   ros__parameters:
@@ -221,7 +256,7 @@ map_server:
 planner_server:
   ros__parameters:
     expected_planner_frequency: 20.0
-    use_sim_time: false
+    use_sim_time: True
     planner_plugins: ["GridBased"]
     GridBased:
       plugin: "nav2_smac_planner/SmacPlanner2D"
@@ -247,11 +282,10 @@ planner_server:
 
 planner_server_rclcpp_node:
   ros__parameters:
-    use_sim_time: false
+    use_sim_time: True
 
 recoveries_server:
   ros__parameters:
-    transform_tolerance: 2.0
     costmap_topic: local_costmap/costmap_raw
     footprint_topic: local_costmap/published_footprint
     cycle_frequency: 10.0
@@ -263,17 +297,17 @@ recoveries_server:
     wait:
       plugin: "nav2_recoveries/Wait"
     global_frame: odom
-    robot_base_frame: base_footprint_r
-    transform_timeout: 4.0 #should be 0.1
-    use_sim_time: false
+    robot_base_frame: base_footprint
+    transform_timeout: 0.1
+    use_sim_time: true
     simulate_ahead_time: 2.0
-    max_rotational_vel: 0.5
-    min_rotational_vel: 0.3
+    max_rotational_vel: 1.0
+    min_rotational_vel: 0.4
     rotational_acc_lim: 3.2
 
 robot_state_publisher:
   ros__parameters:
-    use_sim_time: false
+    use_sim_time: True
 
 waypoint_follower:
   ros__parameters:
@@ -283,4 +317,4 @@ waypoint_follower:
     wait_at_waypoint:
       plugin: "nav2_waypoint_follower::WaitAtWaypoint"
       enabled: True
-      waypoint_pause_duration: 200
+      waypoint_pause_duration: 0
